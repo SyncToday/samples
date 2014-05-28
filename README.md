@@ -1,4 +1,6 @@
-samples
+Sync.Today Samples
 =======
 
-Samples
+Various samples:
+- WSDL integration Samples
+
