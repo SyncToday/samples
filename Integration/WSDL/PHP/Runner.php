@@ -79,33 +79,17 @@ try {
 	 echo "Execute SynchronizeUser method.\n";
 	  
 	 //GetContactsUpdatedSince
-	 $minutes_to_add = 60;
 	 $time = new DateTime();
-	 $time->add(new DateInterval('PT' . $minutes_to_add . 'M'));
+	 $time->modify("-10 hour");
 	 $lessHourTime = $time->format('Y-m-d H:i');
 
 	 $updatedSince = $actions->GetContactsUpdatedSince($client, array('accountId'=>$util->GetArrayValue($account1params, "InternalId", null), 'sinceDateTime'=>$lessHourTime));
 	 if($updatedSince==null || $updatedSince->GetContactsUpdatedSince2Result == null) throw new Exception("Failed to GetContactsUpdatedSince.");
-	 if(count($updatedSince->GetContactsUpdatedSince2Result) != 1) throw new Exception("WSDL method GetContactsUpdatedSince2 must return 1 but returned xyz.");
+	 if($updatedSince->GetContactsUpdatedSince2Result->NuContact == null) throw new Exception("Didn't receive any NuContact.");
+	 if(count($updatedSince->GetContactsUpdatedSince2Result->NuContact) != 1) throw new Exception("WSDL method GetContactsUpdatedSince2 must return 1 but returned " + count($updatedSince->GetContactsUpdatedSince2Result));
+	 if($updatedSince->GetContactsUpdatedSince2Result->NuContact->Company != "Company s.r.o.") throw new Exception("Company in returned contact is xyz but expected was Company s.r.o.");
 	 echo "Execute UpdatedSince method.\n";
-	  /*
-	 $arr = $updatedSince->NuContact[0];
-	 foreach($updatedSince->GetContactsUpdatedSince2Result as $o){
-		var_dump($o->Company);
-		}
-
-		if($arr == null)
-		{
-		echo "NULL";
-		}
-		else
-		{
-		echo "NOT NULL";
-		}
-		*/
-
-
-	//if($util->GetArrayValue($updatedContact,"Company",null)!="Company s.r.o.") throw new Exception("Company in returned contact is xyz but expected was Company s.r.o.");
+	
 
 } catch (SoapFault $e) {
 	var_dump(libxml_get_last_error());

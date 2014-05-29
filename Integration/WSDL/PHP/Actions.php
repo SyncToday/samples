@@ -8,8 +8,8 @@ class Actions
 
 	function GetClient($input)
 	{
-		// file:///C:/Users/jakub.sutak/Documents/Fiddler2/Scripts/BrowserPAC.js
-		//return new SoapClient($input, array('proxy_host' => "localhost", 'proxy_port'     => 8887));
+		// this configuration is for Fiddler
+		//return new SoapClient($input, array('proxy_host' => "localhost", 'proxy_port'=> 8887));
 		return new SoapClient($input);
 	}
 
@@ -31,11 +31,6 @@ class Actions
 	function GetContactsUpdatedSince($client, $params)
 	{
 		return $client->GetContactsUpdatedSince2($params);
-	}
-	
-	function ShowRequest($request)
-	{
-		
 	}
 }
 ?>
