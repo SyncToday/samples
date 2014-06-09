@@ -1,12 +1,17 @@
 ﻿#Dej metody
-#New-WebServiceProxy -Uri http://wsdl.sync.today/DataModel.asmx?WSDL | Get-Member -Type Method -name createcontact2 |fl
+#New-WebServiceProxy -Uri http://wsdl.sync.today/DataModel.asmx?WSDL | Get-Member -Type Method -name createuser2 |fl
 
 #Create new user
 Write-Host -ForegroundColor Green "<<<VYTVARIM UZIVATELE>>>"
+
 $synctoday = New-WebServiceProxy -Uri http://wsdl.sync.today/DataModel.asmx?WSDL
 $userid = [System.Guid]::NewGuid().ToString()
+$userName = Read-Host "First Name"
+$userLast = Read-Host "Last Name"
+$userEmail = Read-Host "Primary Email"
+$userPassword = Read-Host "Password" -AsSecureString
 $maint = "-1"
-$synctoday.CreateUser2($userid, $maint)
+$synctoday.CreateUser2($userid, $maint, $userName, $userLast, $userEmail, $userPassword)
 
 #Pridej Acc1 k uzivately
 Write-Host -ForegroundColor Red "<<<UCET GOOGLE>>>"
@@ -77,4 +82,3 @@ $PhysicalAddressWorkPostalCode,$JobPosition,$Company,$LastModified,$belongsToAcc
 Write-Host -ForegroundColor Yellow "<<<SYNCHRONIZUJI>>>"
 $synctoday.SynchronizeUser2($userid)
 Write-Host -ForegroundColor DarkMagenta "<<<HOTOVO>>>"
-Start-Sleep -Seconds 15
