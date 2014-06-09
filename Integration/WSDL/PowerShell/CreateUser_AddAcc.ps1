@@ -1,4 +1,4 @@
-﻿#New-WebServiceProxy -Uri http://wsdl.sync.today/DataModel.asmx?WSDL | Get-Member -Type Method -name createuser2 |fl
+#New-WebServiceProxy -Uri http://wsdl.sync.today/DataModel.asmx?WSDL | Get-Member -Type Method -name createuser2 |fl
 
 #Create new user
 Write-Host -ForegroundColor Green "<<<Creating User>>>"
@@ -54,7 +54,7 @@ $PhoneNumberWork = Read-Host "Work Phone"
 $EmailAddressHome = Read-host "Private Email"
 $EmailAddressWork = Read-Host "Work Email"
 $PhoneNumberCellPhone = Read-Host "Mobile"
-$Address = Read-Host "Home Address"
+$Address = Read-Host "Address"
 $PhysicalAddressHomeStreet = Read-Host "Street"
 $PhysicalAddressHomeCity = Read-Host "City"
 $PhysicalAddressHomeCountry = Read-Host "Country"
