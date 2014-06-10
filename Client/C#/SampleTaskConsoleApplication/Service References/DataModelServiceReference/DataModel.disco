@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
+  <contractRef ref="http://wsdl.sync.today/DataModel.asmx?wsdl" docRef="http://wsdl.sync.today/DataModel.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
+  <soap address="http://wsdl.sync.today/DataModel.asmx" xmlns:q1="http://sync.today/" binding="q1:DataModelSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <soap address="http://wsdl.sync.today/DataModel.asmx" xmlns:q2="http://sync.today/" binding="q2:DataModelSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+</discovery>
