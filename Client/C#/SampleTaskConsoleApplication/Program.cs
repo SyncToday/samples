@@ -66,7 +66,7 @@ namespace SampleTaskConsoleApplication
             SampleTaskConsoleApplication.DataModelServiceReference.DataModelSoapClient wsdl2 = new SampleTaskConsoleApplication.DataModelServiceReference.DataModelSoapClient("DataModelSoap", "http://wsdl.sync.today/DataModel.asmx");
             string pwd = "Secu^#word23";
             Guid newid = Guid.NewGuid();
-            SampleTaskConsoleApplication.DataModelServiceReference.User user = wsdl2.CreateUser2(newid.ToString(), 0, "aaa@hotmail.com", pwd, "John", "Doe");
+            SampleTaskConsoleApplication.DataModelServiceReference.User user = wsdl2.CreateUser2(newid.ToString(), 0, newid + "@hotmail.com", pwd, "John", "Doe");
             Console.WriteLine(string.Format("user.InternalId:'{0}'", user.InternalId));
             Console.WriteLine(string.Format("user.Email:'{0}'", user.Email));
 
@@ -112,6 +112,9 @@ namespace SampleTaskConsoleApplication
             task4.Subject += "-changed";
 
             NuTask task5 = wsdl.SaveTask(loggedUser, task4);
+            tasks = wsdl.GetTasks(loggedUser);
+            Console.WriteLine(string.Format("tasks.Count():'{0}'", tasks.Count()));
+
             Console.WriteLine(string.Format("task5.Subject:'{0}'", task5.Subject));
 
             task4.ExternalId += "-changed";
