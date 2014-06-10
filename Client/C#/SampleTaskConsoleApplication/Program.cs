@@ -122,6 +122,8 @@ namespace SampleTaskConsoleApplication
 
             NuTask task8 = wsdl.GetTask(loggedUser, task5.ExternalId);
             Console.WriteLine(string.Format("task8:'{0}'", task8));
+            Console.WriteLine("Press Enter to close...");
+            Console.ReadLine();
         }
     }
 }
