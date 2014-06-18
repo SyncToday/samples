@@ -1,0 +1,11 @@
+Register this client:
+SampleTaskConsoleApplication.exe -r => 8c3a75ed-5c06-4b36-bd6e-87b8c7f20452
+
+Create user:
+SampleTaskConsoleApplication.exe -c -e test@test.com -p Password123 => 75b51cfc-b5de-415f-96e1-ecc44ebdcf63
+
+Login user and list all tasks:
+SampleTaskConsoleApplication.exe -l -e test@test.com -p Password123 -cid 8c3a75ed-5c06-4b36-bd6e-87b8c7f20452
+
+Login user and create a task:
+SampleTaskConsoleApplication.exe -s -ct Task1 -e test@test.com -p Password123 -cid 8c3a75ed-5c06-4b36-bd6e-87b8c7f20452 -eid 456

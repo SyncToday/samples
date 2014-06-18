@@ -253,6 +253,14 @@ namespace SampleTaskConsoleApplication.DataModelServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://sync.today/GetContactsUpdatedSince2", ReplyAction="*")]
         System.Threading.Tasks.Task<SampleTaskConsoleApplication.DataModelServiceReference.NuContact[]> GetContactsUpdatedSince2Async(string accountId, string sinceDateTime);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://sync.today/RegisterClient", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NuObject))]
+        SampleTaskConsoleApplication.DataModelServiceReference.ClientRegistration RegisterClient(SampleTaskConsoleApplication.DataModelServiceReference.ClientRegistration client);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sync.today/RegisterClient", ReplyAction="*")]
+        System.Threading.Tasks.Task<SampleTaskConsoleApplication.DataModelServiceReference.ClientRegistration> RegisterClientAsync(SampleTaskConsoleApplication.DataModelServiceReference.ClientRegistration client);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://sync.today/GetUserSalt", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NuObject))]
@@ -276,6 +284,14 @@ namespace SampleTaskConsoleApplication.DataModelServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://sync.today/LoginUser2", ReplyAction="*")]
         System.Threading.Tasks.Task<SampleTaskConsoleApplication.DataModelServiceReference.User> LoginUser2Async(string email, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sync.today/GetAccountForClient", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NuObject))]
+        SampleTaskConsoleApplication.DataModelServiceReference.Account GetAccountForClient(System.Guid userid, System.Guid clientId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sync.today/GetAccountForClient", ReplyAction="*")]
+        System.Threading.Tasks.Task<SampleTaskConsoleApplication.DataModelServiceReference.Account> GetAccountForClientAsync(System.Guid userid, System.Guid clientId);
     }
     
     /// <remarks/>
@@ -414,6 +430,98 @@ namespace SampleTaskConsoleApplication.DataModelServiceReference {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://sync.today/")]
+    public partial class AccountTemplate : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        private string accountAssemblyNameField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string AccountAssemblyName {
+            get {
+                return this.accountAssemblyNameField;
+            }
+            set {
+                this.accountAssemblyNameField = value;
+                this.RaisePropertyChanged("AccountAssemblyName");
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.33440")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://sync.today/")]
+    public partial class ClientRegistration : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        private System.Guid internalIdField;
+        
+        private string nameField;
+        
+        private AccountTemplate accountTemplateField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public System.Guid InternalId {
+            get {
+                return this.internalIdField;
+            }
+            set {
+                this.internalIdField = value;
+                this.RaisePropertyChanged("InternalId");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string Name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
+                this.RaisePropertyChanged("Name");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public AccountTemplate AccountTemplate {
+            get {
+                return this.accountTemplateField;
+            }
+            set {
+                this.accountTemplateField = value;
+                this.RaisePropertyChanged("AccountTemplate");
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.33440")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://sync.today/")]
     public partial class DataNuObjectOfNuContact : object, System.ComponentModel.INotifyPropertyChanged {
         
         private System.Guid internalIdField;
@@ -511,13 +619,13 @@ namespace SampleTaskConsoleApplication.DataModelServiceReference {
     }
     
     /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(SapContact))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(InMemoryContact))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AtollonContact))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(MoneyContact))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(GoogleContact))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ExchangeContact))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(GoogleContact))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(MoneyContact))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(OutlookContact))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(SapContact))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.33440")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -625,8 +733,8 @@ namespace SampleTaskConsoleApplication.DataModelServiceReference {
     }
     
     /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(NuContactNameSimple))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(NuContactNameFull))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(NuContactNameSimple))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.33440")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -640,29 +748,6 @@ namespace SampleTaskConsoleApplication.DataModelServiceReference {
             System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
             if ((propertyChanged != null)) {
                 propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.33440")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://sync.today/")]
-    public partial class NuContactNameSimple : NuContactName {
-        
-        private string fullNameField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public string FullName {
-            get {
-                return this.fullNameField;
-            }
-            set {
-                this.fullNameField = value;
-                this.RaisePropertyChanged("FullName");
             }
         }
     }
@@ -761,15 +846,38 @@ namespace SampleTaskConsoleApplication.DataModelServiceReference {
     }
     
     /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.33440")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://sync.today/")]
+    public partial class NuContactNameSimple : NuContactName {
+        
+        private string fullNameField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string FullName {
+            get {
+                return this.fullNameField;
+            }
+            set {
+                this.fullNameField = value;
+                this.RaisePropertyChanged("FullName");
+            }
+        }
+    }
+    
+    /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(NuEvent))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(NuContact))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(SapContact))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(InMemoryContact))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AtollonContact))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(MoneyContact))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(GoogleContact))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ExchangeContact))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(GoogleContact))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(MoneyContact))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(OutlookContact))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(SapContact))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(NuTask))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(NuRequirement))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.33440")]
@@ -1309,6 +1417,15 @@ namespace SampleTaskConsoleApplication.DataModelServiceReference {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://sync.today/")]
+    public partial class SapContact : NuContact {
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.33440")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://sync.today/")]
     public partial class InMemoryContact : NuContact {
     }
     
@@ -1327,7 +1444,7 @@ namespace SampleTaskConsoleApplication.DataModelServiceReference {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://sync.today/")]
-    public partial class MoneyContact : NuContact {
+    public partial class ExchangeContact : NuContact {
     }
     
     /// <remarks/>
@@ -1345,7 +1462,7 @@ namespace SampleTaskConsoleApplication.DataModelServiceReference {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://sync.today/")]
-    public partial class ExchangeContact : NuContact {
+    public partial class MoneyContact : NuContact {
     }
     
     /// <remarks/>
@@ -1355,15 +1472,6 @@ namespace SampleTaskConsoleApplication.DataModelServiceReference {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://sync.today/")]
     public partial class OutlookContact : NuContact {
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.33440")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://sync.today/")]
-    public partial class SapContact : NuContact {
     }
     
     /// <remarks/>
@@ -1603,6 +1711,8 @@ namespace SampleTaskConsoleApplication.DataModelServiceReference {
         
         private string serverField;
         
+        private System.Guid internalIdField;
+        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
         public string Username {
@@ -1638,6 +1748,18 @@ namespace SampleTaskConsoleApplication.DataModelServiceReference {
                 this.RaisePropertyChanged("Server");
             }
         }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public System.Guid InternalId {
+            get {
+                return this.internalIdField;
+            }
+            set {
+                this.internalIdField = value;
+                this.RaisePropertyChanged("InternalId");
+            }
+        }
     }
     
     /// <remarks/>
@@ -1661,10 +1783,6 @@ namespace SampleTaskConsoleApplication.DataModelServiceReference {
         private CommunicatorConnectInfo connectInfoField;
         
         private string accountAssemblyNameField;
-        
-        private System.Data.DataSet updatesPolicyField;
-        
-        private System.Data.DataSet lastSyncField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
@@ -1747,30 +1865,6 @@ namespace SampleTaskConsoleApplication.DataModelServiceReference {
             set {
                 this.accountAssemblyNameField = value;
                 this.RaisePropertyChanged("AccountAssemblyName");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
-        public System.Data.DataSet UpdatesPolicy {
-            get {
-                return this.updatesPolicyField;
-            }
-            set {
-                this.updatesPolicyField = value;
-                this.RaisePropertyChanged("UpdatesPolicy");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
-        public System.Data.DataSet LastSync {
-            get {
-                return this.lastSyncField;
-            }
-            set {
-                this.lastSyncField = value;
-                this.RaisePropertyChanged("LastSync");
             }
         }
         
@@ -2267,6 +2361,14 @@ namespace SampleTaskConsoleApplication.DataModelServiceReference {
             return base.Channel.GetContactsUpdatedSince2Async(accountId, sinceDateTime);
         }
         
+        public SampleTaskConsoleApplication.DataModelServiceReference.ClientRegistration RegisterClient(SampleTaskConsoleApplication.DataModelServiceReference.ClientRegistration client) {
+            return base.Channel.RegisterClient(client);
+        }
+        
+        public System.Threading.Tasks.Task<SampleTaskConsoleApplication.DataModelServiceReference.ClientRegistration> RegisterClientAsync(SampleTaskConsoleApplication.DataModelServiceReference.ClientRegistration client) {
+            return base.Channel.RegisterClientAsync(client);
+        }
+        
         public string GetUserSalt(string email) {
             return base.Channel.GetUserSalt(email);
         }
@@ -2289,6 +2391,14 @@ namespace SampleTaskConsoleApplication.DataModelServiceReference {
         
         public System.Threading.Tasks.Task<SampleTaskConsoleApplication.DataModelServiceReference.User> LoginUser2Async(string email, string password) {
             return base.Channel.LoginUser2Async(email, password);
+        }
+        
+        public SampleTaskConsoleApplication.DataModelServiceReference.Account GetAccountForClient(System.Guid userid, System.Guid clientId) {
+            return base.Channel.GetAccountForClient(userid, clientId);
+        }
+        
+        public System.Threading.Tasks.Task<SampleTaskConsoleApplication.DataModelServiceReference.Account> GetAccountForClientAsync(System.Guid userid, System.Guid clientId) {
+            return base.Channel.GetAccountForClientAsync(userid, clientId);
         }
     }
 }

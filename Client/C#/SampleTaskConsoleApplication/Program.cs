@@ -1,4 +1,5 @@
-﻿using SampleTaskConsoleApplication.TaskDatabaseServiceReference;
+﻿using NDesk.Options;
+using SampleTaskConsoleApplication.TaskDatabaseServiceReference;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,22 @@ using System.Threading.Tasks;
 
 namespace SampleTaskConsoleApplication
 {
+    /// <summary>
+    /// How to run:
+    /// 
+    /// Register this client:
+    /// SampleTaskConsoleApplication.exe -r => 8c3a75ed-5c06-4b36-bd6e-87b8c7f20452
+    /// 
+    /// Create user:
+    /// SampleTaskConsoleApplication.exe -c -e test@test.com -p Password123 => 75b51cfc-b5de-415f-96e1-ecc44ebdcf63
+    /// 
+    /// Login user and list all tasks:
+    /// SampleTaskConsoleApplication.exe -l -e test@test.com -p Password123 -cid 8c3a75ed-5c06-4b36-bd6e-87b8c7f20452
+    /// 
+    /// Login user and create a task:
+    /// SampleTaskConsoleApplication.exe -s -ct Task1 -e test@test.com -p Password123 -cid 8c3a75ed-5c06-4b36-bd6e-87b8c7f20452 -eid 456
+    /// 
+    /// </summary>
     class Program
     {
         /// <summary>
@@ -61,72 +78,140 @@ namespace SampleTaskConsoleApplication
                 Convert.ToBase64String(hash);
         }
 
+        static void ShowHelp(OptionSet p)
+        {
+            Console.WriteLine("Usage: SimpleTaskConsoleApplication [OPTIONS]+");
+            Console.WriteLine();
+            Console.WriteLine("Options:");
+            p.WriteOptionDescriptions(Console.Out);
+        }
+
         static void Main(string[] args)
         {
-            SampleTaskConsoleApplication.DataModelServiceReference.DataModelSoapClient wsdl2 = new SampleTaskConsoleApplication.DataModelServiceReference.DataModelSoapClient("DataModelSoap", "http://wsdl.sync.today/DataModel.asmx");
-            string pwd = "Secu^#word23";
-            Guid newid = Guid.NewGuid();
-            SampleTaskConsoleApplication.DataModelServiceReference.User user = wsdl2.CreateUser2(newid.ToString(), 0, newid + "@hotmail.com", pwd, "John", "Doe");
-            Console.WriteLine(string.Format("user.InternalId:'{0}'", user.InternalId));
-            Console.WriteLine(string.Format("user.Email:'{0}'", user.Email));
+            bool show_help = false;
+            List<string> names = new List<string>();
+            bool registerClient = false;
+            bool createUser = false;
+            Guid clientId = Guid.Empty;
+            string taskName = null;
+            string externalId = null;
+            bool listTasks = false;
+            bool saveTask = false;
+            string pwd = null;
+            string email = null;
 
-            SampleTaskConsoleApplication.DataModelServiceReference.Account account = wsdl2.CreateAccount2(newid.ToString(), user.InternalId.ToString(), "user@name.com", "Pass_word1", "server", "naseukolycz.universalsync.communicator.inmemory.1");
-            Console.WriteLine(string.Format("account.InternalId:'{0}'", account.InternalId));
+            var p = new OptionSet() {
+            { "r|registerClient", "Register the client, print the Client Registration ID",
+              v => { registerClient = (v != null); } },
+            { "c|createUser", "Register the user, print the User ID",
+              v => { createUser = (v != null); } },
+            { "cid|clientId=", 
+                "the Client Registration ID.\n" + 
+                    "this must be Guid.",
+              (Guid v) => clientId = v },
+            { "eid|externalId=", 
+                "External Task ID.\n",
+              (string v) => externalId = v },
+            { "e|email=", 
+                "User email.\n",
+              (string v) => email = v },
+            { "p|password=", 
+                "User password.\n",
+              (string v) => pwd = v },
+            { "ct|createTask=", 
+                "Task name.\n",
+              (string v) => taskName = v },
+            { "l|list",  "show all tasks", 
+              v => listTasks = v != null },
+            { "s|save",  "save task", 
+              v => saveTask = v != null },
+            { "h|help",  "show this message and exit", 
+              v => show_help = v != null },
+        };
+
+            List<string> extra;
+            try
+            {
+                extra = p.Parse(args);
+            }
+            catch (OptionException e)
+            {
+                Console.Write("SimpleTaskConsoleApplication failed: ");
+                Console.WriteLine(e.Message);
+                Console.WriteLine("Try `SampleTaskConsoleApplication --help' for more information.");
+                return;
+            }
+
+            if (show_help)
+            {
+                ShowHelp(p);
+                return;
+            }
+
+            if (registerClient)
+            {
+                Console.WriteLine(RegisterClient.Do());
+                return;
+            }
+
+            if (createUser)
+            {
+                Console.WriteLine(CreateUser.Do(email, pwd));
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                ShowHelp(p);
+                return;
+            }                
+
 
             TaskDatabaseSoapClient wsdl = new TaskDatabaseSoapClient("TaskDatabaseSoap", "http://wsdl.sync.today/TaskDatabase.asmx");
-            string salt = wsdl.GetUserSalt(user.Email);
+            string salt = wsdl.GetUserSalt(email);
             Console.WriteLine(string.Format("salt:'{0}'", salt));
-
             string hashedPasword = CreateHash1(pwd, salt);
             Console.WriteLine(string.Format("hashedPasword:'{0}'", hashedPasword));
-
             string finalPassword = CreateHash2(hashedPasword, salt);
             Console.WriteLine(string.Format("finalPassword:'{0}'", finalPassword));
+            var loggedUser = wsdl.LoginUser2(email, finalPassword);
+            Console.WriteLine(string.Format("loggedUser.InternalId:'{0}'", loggedUser.InternalId));
+            Account account = wsdl.GetAccountForClient(loggedUser.InternalId, clientId);
+            Console.WriteLine(string.Format("account.InternalId:'{0}'", account.InternalId));
 
-            var loggedUser = wsdl.LoginUser2(user.Email, finalPassword);
+            if (listTasks)
+            {
+                NuTask[] tasks = wsdl.GetTasks(account, loggedUser);
+                foreach (NuTask task in tasks)
+                {
+                    PrintTask(task);
+                }
 
-            var task = new NuTask();
-            task.Body = "TaskBody";
-            task.Company = "Company ltd.";
-            task.Completed = false;
-            task.DueDate = DateTime.Now.AddDays(1.0);
-            task.ExternalId = Guid.NewGuid().ToString();
-            task.IsPrivate = false;
-            task.LastModified = DateTime.Now;
-            task.Reminder = task.DueDate.Value.AddHours(-1.0);
-            task.StartDate = task.LastModified;
-            task.Subject = "Task-" + task.LastModified.Ticks;
+                return;
+            }
 
-            NuTask task2 = wsdl.SaveTask(loggedUser, task);
+            if (saveTask)
+            {
+                var task = new NuTask();
+                task.Body = "TaskBody";
+                task.Company = "Company ltd.";
+                task.Completed = false;
+                task.DueDate = DateTime.Now.AddDays(1.0);
+                task.ExternalId = externalId;
+                task.IsPrivate = false;
+                task.LastModified = DateTime.Now;
+                task.Reminder = task.DueDate.Value.AddHours(-1.0);
+                task.StartDate = task.LastModified;
+                task.Subject = taskName;
 
-            NuTask[] tasks = wsdl.GetTasks(loggedUser);
-            Console.WriteLine(string.Format("tasks.Count():'{0}'", tasks.Count()));
+                NuTask task2 = wsdl.SaveTask(account, loggedUser, task);
+                PrintTask(task2);
+            }
+        }
 
-            NuTask task3 = tasks[0];
-            NuTask task4 = wsdl.GetTask(loggedUser, task2.ExternalId);
-
-            Console.WriteLine(string.Format("task2.Subject:'{0}'", task2.Subject));
-            Console.WriteLine(string.Format("task3.Subject:'{0}'", task3.Subject));
-            Console.WriteLine(string.Format("task4.Subject:'{0}'", task4.Subject));
-
-            task4.Subject += "-changed";
-
-            NuTask task5 = wsdl.SaveTask(loggedUser, task4);
-            tasks = wsdl.GetTasks(loggedUser);
-            Console.WriteLine(string.Format("tasks.Count():'{0}'", tasks.Count()));
-
-            Console.WriteLine(string.Format("task5.Subject:'{0}'", task5.Subject));
-
-            task4.ExternalId += "-changed";
-            NuTask task6 = wsdl.ChangeTaskExternalId(loggedUser, task5.ExternalId, task4);
-
-            NuTask task7 = wsdl.GetTask(loggedUser, task4.ExternalId);
-            Console.WriteLine(string.Format("task7.Subject:'{0}'", task7.Subject));
-
-            NuTask task8 = wsdl.GetTask(loggedUser, task5.ExternalId);
-            Console.WriteLine(string.Format("task8:'{0}'", task8));
-            Console.WriteLine("Press Enter to close...");
-            Console.ReadLine();
+        private static void PrintTask(NuTask task)
+        {
+            Console.WriteLine("'{0}' ['{1}'] due on '{2}'", task.Subject, task.ExternalId, task.DueDate );
         }
     }
 }

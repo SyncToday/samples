@@ -15,37 +15,69 @@ namespace SampleTaskConsoleApplication.TaskDatabaseServiceReference {
     [System.ServiceModel.ServiceContractAttribute(Namespace="http://sync.today/", ConfigurationName="TaskDatabaseServiceReference.TaskDatabaseSoap")]
     public interface TaskDatabaseSoap {
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://sync.today/GetAccount", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NuObject))]
+        SampleTaskConsoleApplication.TaskDatabaseServiceReference.Account GetAccount(System.Guid accountId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sync.today/GetAccount", ReplyAction="*")]
+        System.Threading.Tasks.Task<SampleTaskConsoleApplication.TaskDatabaseServiceReference.Account> GetAccountAsync(System.Guid accountId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sync.today/GetAccount2", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NuObject))]
+        SampleTaskConsoleApplication.TaskDatabaseServiceReference.Account GetAccount2(string accountId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sync.today/GetAccount2", ReplyAction="*")]
+        System.Threading.Tasks.Task<SampleTaskConsoleApplication.TaskDatabaseServiceReference.Account> GetAccount2Async(string accountId);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://sync.today/GetTasks", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NuObject))]
-        SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask[] GetTasks(SampleTaskConsoleApplication.TaskDatabaseServiceReference.User user);
+        SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask[] GetTasks(SampleTaskConsoleApplication.TaskDatabaseServiceReference.Account account, SampleTaskConsoleApplication.TaskDatabaseServiceReference.User user);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://sync.today/GetTasks", ReplyAction="*")]
-        System.Threading.Tasks.Task<SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask[]> GetTasksAsync(SampleTaskConsoleApplication.TaskDatabaseServiceReference.User user);
+        System.Threading.Tasks.Task<SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask[]> GetTasksAsync(SampleTaskConsoleApplication.TaskDatabaseServiceReference.Account account, SampleTaskConsoleApplication.TaskDatabaseServiceReference.User user);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sync.today/GetTasks2", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NuObject))]
+        SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask[] GetTasks2(string accountId, string userInternalId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sync.today/GetTasks2", ReplyAction="*")]
+        System.Threading.Tasks.Task<SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask[]> GetTasks2Async(string accountId, string userInternalId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://sync.today/GetTask", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NuObject))]
-        SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask GetTask(SampleTaskConsoleApplication.TaskDatabaseServiceReference.User user, string id);
+        SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask GetTask(SampleTaskConsoleApplication.TaskDatabaseServiceReference.Account account, SampleTaskConsoleApplication.TaskDatabaseServiceReference.User user, string id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://sync.today/GetTask", ReplyAction="*")]
-        System.Threading.Tasks.Task<SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask> GetTaskAsync(SampleTaskConsoleApplication.TaskDatabaseServiceReference.User user, string id);
+        System.Threading.Tasks.Task<SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask> GetTaskAsync(SampleTaskConsoleApplication.TaskDatabaseServiceReference.Account account, SampleTaskConsoleApplication.TaskDatabaseServiceReference.User user, string id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sync.today/GetTask2", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NuObject))]
+        SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask GetTask2(string accountId, string userInternalId, string id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sync.today/GetTask2", ReplyAction="*")]
+        System.Threading.Tasks.Task<SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask> GetTask2Async(string accountId, string userInternalId, string id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://sync.today/SaveTask", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NuObject))]
-        SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask SaveTask(SampleTaskConsoleApplication.TaskDatabaseServiceReference.User user, SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask task);
+        SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask SaveTask(SampleTaskConsoleApplication.TaskDatabaseServiceReference.Account account, SampleTaskConsoleApplication.TaskDatabaseServiceReference.User user, SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask task);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://sync.today/SaveTask", ReplyAction="*")]
-        System.Threading.Tasks.Task<SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask> SaveTaskAsync(SampleTaskConsoleApplication.TaskDatabaseServiceReference.User user, SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask task);
+        System.Threading.Tasks.Task<SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask> SaveTaskAsync(SampleTaskConsoleApplication.TaskDatabaseServiceReference.Account account, SampleTaskConsoleApplication.TaskDatabaseServiceReference.User user, SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask task);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://sync.today/ChangeTaskExternalId", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NuObject))]
-        SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask ChangeTaskExternalId(SampleTaskConsoleApplication.TaskDatabaseServiceReference.User user, string oldId, SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask task);
+        SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask ChangeTaskExternalId(SampleTaskConsoleApplication.TaskDatabaseServiceReference.Account account, SampleTaskConsoleApplication.TaskDatabaseServiceReference.User user, string oldId, SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask task);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://sync.today/ChangeTaskExternalId", ReplyAction="*")]
-        System.Threading.Tasks.Task<SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask> ChangeTaskExternalIdAsync(SampleTaskConsoleApplication.TaskDatabaseServiceReference.User user, string oldId, SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask task);
+        System.Threading.Tasks.Task<SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask> ChangeTaskExternalIdAsync(SampleTaskConsoleApplication.TaskDatabaseServiceReference.Account account, SampleTaskConsoleApplication.TaskDatabaseServiceReference.User user, string oldId, SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask task);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://sync.today/GetUserSalt", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -70,6 +102,14 @@ namespace SampleTaskConsoleApplication.TaskDatabaseServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://sync.today/LoginUser2", ReplyAction="*")]
         System.Threading.Tasks.Task<SampleTaskConsoleApplication.TaskDatabaseServiceReference.User> LoginUser2Async(string email, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sync.today/GetAccountForClient", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NuObject))]
+        SampleTaskConsoleApplication.TaskDatabaseServiceReference.Account GetAccountForClient(System.Guid userid, System.Guid clientId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://sync.today/GetAccountForClient", ReplyAction="*")]
+        System.Threading.Tasks.Task<SampleTaskConsoleApplication.TaskDatabaseServiceReference.Account> GetAccountForClientAsync(System.Guid userid, System.Guid clientId);
     }
     
     /// <remarks/>
@@ -78,23 +118,21 @@ namespace SampleTaskConsoleApplication.TaskDatabaseServiceReference {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://sync.today/")]
-    public partial class User : object, System.ComponentModel.INotifyPropertyChanged {
+    public partial class Account : object, System.ComponentModel.INotifyPropertyChanged {
         
         private System.Guid internalIdField;
         
-        private System.DateTime createdField;
+        private System.Guid belongsToUserField;
         
-        private bool isBlockedField;
-        
-        private int maintenanceField;
-        
-        private string firstNameField;
-        
-        private string lastNameField;
-        
-        private string emailField;
+        private string usernameField;
         
         private string passwordField;
+        
+        private string serverField;
+        
+        private CommunicatorConnectInfo connectInfoField;
+        
+        private string accountAssemblyNameField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
@@ -110,78 +148,30 @@ namespace SampleTaskConsoleApplication.TaskDatabaseServiceReference {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=1)]
-        public System.DateTime Created {
+        public System.Guid BelongsToUser {
             get {
-                return this.createdField;
+                return this.belongsToUserField;
             }
             set {
-                this.createdField = value;
-                this.RaisePropertyChanged("Created");
+                this.belongsToUserField = value;
+                this.RaisePropertyChanged("BelongsToUser");
             }
         }
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=2)]
-        public bool IsBlocked {
+        public string Username {
             get {
-                return this.isBlockedField;
+                return this.usernameField;
             }
             set {
-                this.isBlockedField = value;
-                this.RaisePropertyChanged("IsBlocked");
+                this.usernameField = value;
+                this.RaisePropertyChanged("Username");
             }
         }
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=3)]
-        public int Maintenance {
-            get {
-                return this.maintenanceField;
-            }
-            set {
-                this.maintenanceField = value;
-                this.RaisePropertyChanged("Maintenance");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
-        public string FirstName {
-            get {
-                return this.firstNameField;
-            }
-            set {
-                this.firstNameField = value;
-                this.RaisePropertyChanged("FirstName");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
-        public string LastName {
-            get {
-                return this.lastNameField;
-            }
-            set {
-                this.lastNameField = value;
-                this.RaisePropertyChanged("LastName");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
-        public string Email {
-            get {
-                return this.emailField;
-            }
-            set {
-                this.emailField = value;
-                this.RaisePropertyChanged("Email");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
         public string Password {
             get {
                 return this.passwordField;
@@ -191,6 +181,61 @@ namespace SampleTaskConsoleApplication.TaskDatabaseServiceReference {
                 this.RaisePropertyChanged("Password");
             }
         }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public string Server {
+            get {
+                return this.serverField;
+            }
+            set {
+                this.serverField = value;
+                this.RaisePropertyChanged("Server");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public CommunicatorConnectInfo ConnectInfo {
+            get {
+                return this.connectInfoField;
+            }
+            set {
+                this.connectInfoField = value;
+                this.RaisePropertyChanged("ConnectInfo");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        public string AccountAssemblyName {
+            get {
+                return this.accountAssemblyNameField;
+            }
+            set {
+                this.accountAssemblyNameField = value;
+                this.RaisePropertyChanged("AccountAssemblyName");
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(SimpleCommunicatorConnectInfo))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.33440")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://sync.today/")]
+    public abstract partial class CommunicatorConnectInfo : object, System.ComponentModel.INotifyPropertyChanged {
         
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
@@ -425,6 +470,201 @@ namespace SampleTaskConsoleApplication.TaskDatabaseServiceReference {
     public partial class NuRequirement : NuTask {
     }
     
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.33440")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://sync.today/")]
+    public partial class User : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        private System.Guid internalIdField;
+        
+        private System.DateTime createdField;
+        
+        private bool isBlockedField;
+        
+        private int maintenanceField;
+        
+        private string firstNameField;
+        
+        private string lastNameField;
+        
+        private string emailField;
+        
+        private string passwordField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public System.Guid InternalId {
+            get {
+                return this.internalIdField;
+            }
+            set {
+                this.internalIdField = value;
+                this.RaisePropertyChanged("InternalId");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public System.DateTime Created {
+            get {
+                return this.createdField;
+            }
+            set {
+                this.createdField = value;
+                this.RaisePropertyChanged("Created");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public bool IsBlocked {
+            get {
+                return this.isBlockedField;
+            }
+            set {
+                this.isBlockedField = value;
+                this.RaisePropertyChanged("IsBlocked");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public int Maintenance {
+            get {
+                return this.maintenanceField;
+            }
+            set {
+                this.maintenanceField = value;
+                this.RaisePropertyChanged("Maintenance");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public string FirstName {
+            get {
+                return this.firstNameField;
+            }
+            set {
+                this.firstNameField = value;
+                this.RaisePropertyChanged("FirstName");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public string LastName {
+            get {
+                return this.lastNameField;
+            }
+            set {
+                this.lastNameField = value;
+                this.RaisePropertyChanged("LastName");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        public string Email {
+            get {
+                return this.emailField;
+            }
+            set {
+                this.emailField = value;
+                this.RaisePropertyChanged("Email");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        public string Password {
+            get {
+                return this.passwordField;
+            }
+            set {
+                this.passwordField = value;
+                this.RaisePropertyChanged("Password");
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.33440")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://sync.today/")]
+    public partial class SimpleCommunicatorConnectInfo : CommunicatorConnectInfo {
+        
+        private string usernameField;
+        
+        private string passwordField;
+        
+        private string serverField;
+        
+        private System.Guid internalIdField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string Username {
+            get {
+                return this.usernameField;
+            }
+            set {
+                this.usernameField = value;
+                this.RaisePropertyChanged("Username");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string Password {
+            get {
+                return this.passwordField;
+            }
+            set {
+                this.passwordField = value;
+                this.RaisePropertyChanged("Password");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string Server {
+            get {
+                return this.serverField;
+            }
+            set {
+                this.serverField = value;
+                this.RaisePropertyChanged("Server");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public System.Guid InternalId {
+            get {
+                return this.internalIdField;
+            }
+            set {
+                this.internalIdField = value;
+                this.RaisePropertyChanged("InternalId");
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface TaskDatabaseSoapChannel : SampleTaskConsoleApplication.TaskDatabaseServiceReference.TaskDatabaseSoap, System.ServiceModel.IClientChannel {
     }
@@ -452,36 +692,68 @@ namespace SampleTaskConsoleApplication.TaskDatabaseServiceReference {
                 base(binding, remoteAddress) {
         }
         
-        public SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask[] GetTasks(SampleTaskConsoleApplication.TaskDatabaseServiceReference.User user) {
-            return base.Channel.GetTasks(user);
+        public SampleTaskConsoleApplication.TaskDatabaseServiceReference.Account GetAccount(System.Guid accountId) {
+            return base.Channel.GetAccount(accountId);
         }
         
-        public System.Threading.Tasks.Task<SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask[]> GetTasksAsync(SampleTaskConsoleApplication.TaskDatabaseServiceReference.User user) {
-            return base.Channel.GetTasksAsync(user);
+        public System.Threading.Tasks.Task<SampleTaskConsoleApplication.TaskDatabaseServiceReference.Account> GetAccountAsync(System.Guid accountId) {
+            return base.Channel.GetAccountAsync(accountId);
         }
         
-        public SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask GetTask(SampleTaskConsoleApplication.TaskDatabaseServiceReference.User user, string id) {
-            return base.Channel.GetTask(user, id);
+        public SampleTaskConsoleApplication.TaskDatabaseServiceReference.Account GetAccount2(string accountId) {
+            return base.Channel.GetAccount2(accountId);
         }
         
-        public System.Threading.Tasks.Task<SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask> GetTaskAsync(SampleTaskConsoleApplication.TaskDatabaseServiceReference.User user, string id) {
-            return base.Channel.GetTaskAsync(user, id);
+        public System.Threading.Tasks.Task<SampleTaskConsoleApplication.TaskDatabaseServiceReference.Account> GetAccount2Async(string accountId) {
+            return base.Channel.GetAccount2Async(accountId);
         }
         
-        public SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask SaveTask(SampleTaskConsoleApplication.TaskDatabaseServiceReference.User user, SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask task) {
-            return base.Channel.SaveTask(user, task);
+        public SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask[] GetTasks(SampleTaskConsoleApplication.TaskDatabaseServiceReference.Account account, SampleTaskConsoleApplication.TaskDatabaseServiceReference.User user) {
+            return base.Channel.GetTasks(account, user);
         }
         
-        public System.Threading.Tasks.Task<SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask> SaveTaskAsync(SampleTaskConsoleApplication.TaskDatabaseServiceReference.User user, SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask task) {
-            return base.Channel.SaveTaskAsync(user, task);
+        public System.Threading.Tasks.Task<SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask[]> GetTasksAsync(SampleTaskConsoleApplication.TaskDatabaseServiceReference.Account account, SampleTaskConsoleApplication.TaskDatabaseServiceReference.User user) {
+            return base.Channel.GetTasksAsync(account, user);
         }
         
-        public SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask ChangeTaskExternalId(SampleTaskConsoleApplication.TaskDatabaseServiceReference.User user, string oldId, SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask task) {
-            return base.Channel.ChangeTaskExternalId(user, oldId, task);
+        public SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask[] GetTasks2(string accountId, string userInternalId) {
+            return base.Channel.GetTasks2(accountId, userInternalId);
         }
         
-        public System.Threading.Tasks.Task<SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask> ChangeTaskExternalIdAsync(SampleTaskConsoleApplication.TaskDatabaseServiceReference.User user, string oldId, SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask task) {
-            return base.Channel.ChangeTaskExternalIdAsync(user, oldId, task);
+        public System.Threading.Tasks.Task<SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask[]> GetTasks2Async(string accountId, string userInternalId) {
+            return base.Channel.GetTasks2Async(accountId, userInternalId);
+        }
+        
+        public SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask GetTask(SampleTaskConsoleApplication.TaskDatabaseServiceReference.Account account, SampleTaskConsoleApplication.TaskDatabaseServiceReference.User user, string id) {
+            return base.Channel.GetTask(account, user, id);
+        }
+        
+        public System.Threading.Tasks.Task<SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask> GetTaskAsync(SampleTaskConsoleApplication.TaskDatabaseServiceReference.Account account, SampleTaskConsoleApplication.TaskDatabaseServiceReference.User user, string id) {
+            return base.Channel.GetTaskAsync(account, user, id);
+        }
+        
+        public SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask GetTask2(string accountId, string userInternalId, string id) {
+            return base.Channel.GetTask2(accountId, userInternalId, id);
+        }
+        
+        public System.Threading.Tasks.Task<SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask> GetTask2Async(string accountId, string userInternalId, string id) {
+            return base.Channel.GetTask2Async(accountId, userInternalId, id);
+        }
+        
+        public SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask SaveTask(SampleTaskConsoleApplication.TaskDatabaseServiceReference.Account account, SampleTaskConsoleApplication.TaskDatabaseServiceReference.User user, SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask task) {
+            return base.Channel.SaveTask(account, user, task);
+        }
+        
+        public System.Threading.Tasks.Task<SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask> SaveTaskAsync(SampleTaskConsoleApplication.TaskDatabaseServiceReference.Account account, SampleTaskConsoleApplication.TaskDatabaseServiceReference.User user, SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask task) {
+            return base.Channel.SaveTaskAsync(account, user, task);
+        }
+        
+        public SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask ChangeTaskExternalId(SampleTaskConsoleApplication.TaskDatabaseServiceReference.Account account, SampleTaskConsoleApplication.TaskDatabaseServiceReference.User user, string oldId, SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask task) {
+            return base.Channel.ChangeTaskExternalId(account, user, oldId, task);
+        }
+        
+        public System.Threading.Tasks.Task<SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask> ChangeTaskExternalIdAsync(SampleTaskConsoleApplication.TaskDatabaseServiceReference.Account account, SampleTaskConsoleApplication.TaskDatabaseServiceReference.User user, string oldId, SampleTaskConsoleApplication.TaskDatabaseServiceReference.NuTask task) {
+            return base.Channel.ChangeTaskExternalIdAsync(account, user, oldId, task);
         }
         
         public string GetUserSalt(string email) {
@@ -506,6 +778,14 @@ namespace SampleTaskConsoleApplication.TaskDatabaseServiceReference {
         
         public System.Threading.Tasks.Task<SampleTaskConsoleApplication.TaskDatabaseServiceReference.User> LoginUser2Async(string email, string password) {
             return base.Channel.LoginUser2Async(email, password);
+        }
+        
+        public SampleTaskConsoleApplication.TaskDatabaseServiceReference.Account GetAccountForClient(System.Guid userid, System.Guid clientId) {
+            return base.Channel.GetAccountForClient(userid, clientId);
+        }
+        
+        public System.Threading.Tasks.Task<SampleTaskConsoleApplication.TaskDatabaseServiceReference.Account> GetAccountForClientAsync(System.Guid userid, System.Guid clientId) {
+            return base.Channel.GetAccountForClientAsync(userid, clientId);
         }
     }
 }
