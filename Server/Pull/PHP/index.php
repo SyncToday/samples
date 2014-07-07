@@ -13,17 +13,23 @@ and open the template in the editor.
         <?php
         include 'MyCommunicator.php';
         include 'Client\Client.php';
+        include 'Util\GeneratorData.php';
         
-       
         echo "creating soap server.<br />";
         echo "<br />";
         try {
+            $generatorData = new GeneratorData();
+            
             $server = new SoapServer('http://wsdl.sync.today/DataModelCallback.asmx?WSDL', array('exceptions' => true));
             $server->setClass('MyCommunicator');
             $server->handle();
             
-            $clientClass = new Client('http://wsdl.sync.today/DataModel.asmx?WSDL');            
-            $clientClass->RegisterUser($params);
+            $client = new Client('http://wsdl.sync.today/DataModel.asmx?WSDL');            
+            $client->CreateUser($generatorData->GetUserParams());
+            $client->CreateAccount($generatorData->GetAccount1Params());
+            $client->CreateAccount($generatorData->GetAccount2Params());
+            
+            $accs = $client->getCreatedAccounts();
 
             echo "FUNCTIONS";
             echo "<br />";

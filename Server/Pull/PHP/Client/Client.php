@@ -25,16 +25,26 @@ class Client {
             echo var_dump($e);
         }
     }
+    
+    function getCreatedAccounts()
+    {
+        return $this->accounts;
+    }
       
-    function RegisterAccount($params)
+    function CreateAccount($params)
     {
         $account = $this->actions->CreateAccount($this->client, $params);
         array_push($this->accounts, $account);
     }
     
-    function RegisterUser($params)
+    function CreateUser($params)
     {
         $this->user = $this->actions->CreateUser($this->client, $params);
+    }
+    
+    function CreateContact($contactParams)
+    {
+        return $this->actions->CreateContact($client, $contactParams);
     }
 
 }

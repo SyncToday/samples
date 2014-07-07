@@ -4,7 +4,7 @@
  * This class for do actions.
  */
 class Actions {
-    
+
     /**
      * Creates SoapClient.
      * @param type $input is type of string (WSDL URL).
@@ -34,6 +34,16 @@ class Actions {
      */
     function CreateAccount($client, $params) {
         return $client->CreateAccount2($params);
+    }
+
+    /**
+     * Creates contact.
+     * @param type $client
+     * @param type $contactParams
+     * @return type
+     */
+    function CreateContact($client, $contactParams) {
+        return $client->CreateContact2($contactParams);
     }
 
 }
