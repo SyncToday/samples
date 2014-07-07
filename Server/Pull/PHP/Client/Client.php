@@ -26,6 +26,11 @@ class Client {
         }
     }
     
+    function getCreatedUser()
+    {
+        return $this->user;
+    }
+    
     function getCreatedAccounts()
     {
         return $this->accounts;

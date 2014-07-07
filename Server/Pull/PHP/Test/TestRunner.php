@@ -22,12 +22,12 @@ class TestRunner {
 
         try {
             echo "Creating SoapServer <br />";
-            $server = new SoapServer('http://wsdl.sync.today/DataModelCallback.asmx?WSDL', array('exceptions' => true));
+            $server = new SoapServer('http://localhost:22649/DataModelCallBack.asmx?WSDL', array('exceptions' => true));
             $server->setClass('MyCommunicator');
             $server->handle();
 
             echo "Creating SoapClient <br />";
-            $this->client = new Client('http://wsdl.sync.today/DataModel.asmx?WSDL');
+            $this->client = new Client('http://localhost:22649/DataModel.asmx?WSDL');
 
         } catch (SoapFault $e) {
             echo var_dump(libxml_get_last_error());
@@ -38,17 +38,17 @@ class TestRunner {
     function Run() {
         try {
             // 1st step: create user
-            $user = $this->client->CreateUser($this->generatorData->GetUserParams());
+            $this->client->CreateUser($this->generatorData->GetUserParams());
             // 2nd step: create accounts
             $this->client->CreateAccount($this->generatorData->GetAccount1Params());
             $this->client->CreateAccount($this->generatorData->GetAccount2Params());
 
             $this->accs = $this->client->getCreatedAccounts();
             // 3rd step: create contact
-            $createdContact = CreateRandomContact("");
+            //$createdContact = $this->CreateRandomContact("");
 
             //4th step: Synchronize
-            $this->client->SynchronizeUser($this->util->GetArrayValue($user, 'InternalId', null));
+            $this->client->SynchronizeUser($this->client->getCreatedUser()->CreateUser2Result->InternalId);
         } catch (SoapFault $e) {
             echo var_dump(libxml_get_last_error());
             echo var_dump($e);

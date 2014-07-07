@@ -126,6 +126,10 @@ class GeneratorData {
         );
     }
 
+    function getRandomCompany() {
+        return $this->company[array_rand($this->company)];
+    }
+
     function getRandomPhoneNumber() {
         return $this->phonenumber[array_rand($this->phonenumber)];
     }
@@ -143,7 +147,7 @@ class GeneratorData {
     }
 
     function getRandomState() {
-        return $this->State[array_rand($this->state)];
+        return $this->state[array_rand($this->state)];
     }
 
     function getRandomStreet() {
@@ -151,15 +155,25 @@ class GeneratorData {
     }
 
     function getRandomEmail() {
-        return $this->getRandomFirstName() + "@" + $this->getRandomSurname() + ".com";
+        $email = $this->getRandomFirstName();
+        $email .= "@";
+        $email .= $this->getRandomSurname();
+        $email .= ".com";
+        return $email;
     }
 
     function getEmail($firstname, $surname) {
-        return $firstname + "@" + $surname + ".com";
+        $email = $firstname;
+        $email .= "@";
+        $email .= $surname;
+        $email .= ".com";
     }
 
     function getRandomFullName() {
-        return getRandomFirstName() + " " + getRandomSurname();
+        $fullname = $this->getRandomFirstName();
+        $fullname .= " ";
+        $fullname .= $this->getRandomSurname();
+        return $fullname;
     }
 
     function getRandomFirstName() {
@@ -171,29 +185,28 @@ class GeneratorData {
     }
 
     function getRandomAddress() {
-        return $this->getRandomStreet() + ", " + $this->getRandomCity() + ", " + $this->getRandomPostalCode();
+        $address = $this->getRandomStreet();
+        $address .= ", ";
+        $address .= $this->getRandomCity();
+        $address .= ", ";
+        $address .= $this->getRandomPostalCode();
+        return $address;
     }
-
+    
     function GetUserParams() {
         $this->userparams = array('InternalId' => $this->util->GetNewGuid(), 'Maintenance' => -1, 'Email' => $this->getRandomEmail(),
-            'Password' => 'Pass_word_xyz');
+            'Password' => 'Pass_word_xyz', 'FirstName' => $this->getRandomFirstName(), 'LastName' => $this->getRandomSurname());
         return $this->userparams;
     }
 
     function getDateBetween($start_date, $end_date) {
-        // Convert to timetamps
-        $min = strtotime($start_date);
-        $max = strtotime($end_date);
-
-        // Generate random number using above bounds
-        $val = rand($min, $max);
-
-        // Convert back to desired date format
-        return date('Y-m-d H:i:s', $val);
+        $rand_epoch = rand($start_date, $end_date);
+        return date('Y-m-d H:i:s', $rand_epoch);
     }
 
     function GetRandomContactParams($accountInternalId, $relationId) {
-        $now = date("Y-m-d H:i:s");
+        $now = new DateTime();
+       $earlier = new DateTime();
         $params = array('ExternalId' => $this->util->GetNewGuid(),
             'FullName' => $this->getRandomFullName(),
             'PhoneNumberHome' => $this->getRandomPhoneNumber(),
@@ -213,7 +226,7 @@ class GeneratorData {
             'PhysicalAddressWorkPostalCode' => $this->getRandomPostalCode(),
             'JobPosition' => $this->getRandomJobPosition(),
             'Company' => $this->getRandomCompany(),
-            'LastModified' => $this->getDateBetween(date_sub($now, date_interval_create_from_date_string('10 days')), $now),
+            'LastModified' => date('Y-m-d H:i:s'),
             'belongsToAccount' => $accountInternalId,
             'isOriginal' => "true",
             'isDeleted' => "false",

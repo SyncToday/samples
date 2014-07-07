@@ -53,7 +53,9 @@ class Actions {
      * @return type
      */
     function SynchronizeUser($client, $userid) {
-        return $client->SynchronizeUser2($userid);
+        echo $userid;
+        $params = array('userId' => $userid);
+        return $client->SynchronizeUser2($params);
     }
 
 }
