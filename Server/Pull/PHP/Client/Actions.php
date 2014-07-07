@@ -46,6 +46,16 @@ class Actions {
         return $client->CreateContact2($contactParams);
     }
 
+    /**
+     * Run synchronize.
+     * @param type $client
+     * @param type $userid
+     * @return type
+     */
+    function SynchronizeUser($client, $userid) {
+        return $client->SynchronizeUser2($userid);
+    }
+
 }
 ?>
 

@@ -44,7 +44,12 @@ class Client {
     
     function CreateContact($contactParams)
     {
-        return $this->actions->CreateContact($client, $contactParams);
+        return $this->actions->CreateContact($this->client, $contactParams);
+    }
+    
+    function SynchronizeUser($userInternalId)
+    {
+        return $this->actions->SynchronizeUser($this->client, $userInternalId);
     }
 
 }

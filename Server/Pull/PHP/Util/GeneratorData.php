@@ -21,7 +21,7 @@ class GeneratorData {
 
     public function __construct() {
         $this->util = new Util();
-        InitialData();
+        $this->InitialData();
     }
 
     function InitialData() {
@@ -175,7 +175,7 @@ class GeneratorData {
     }
 
     function GetUserParams() {
-        $this->userparams = array('InternalId' => $this->util->GetNewGuid(), 'Maintenance' => -1, 'Email' => getRandomEmail(),
+        $this->userparams = array('InternalId' => $this->util->GetNewGuid(), 'Maintenance' => -1, 'Email' => $this->getRandomEmail(),
             'Password' => 'Pass_word_xyz');
         return $this->userparams;
     }
@@ -192,9 +192,9 @@ class GeneratorData {
         return date('Y-m-d H:i:s', $val);
     }
 
-    function GetRandomContactParams() {
+    function GetRandomContactParams($accountInternalId, $relationId) {
         $now = date("Y-m-d H:i:s");
-        $params =  array('ExternalId' => $this->util->GetNewGuid(),
+        $params = array('ExternalId' => $this->util->GetNewGuid(),
             'FullName' => $this->getRandomFullName(),
             'PhoneNumberHome' => $this->getRandomPhoneNumber(),
             'PhoneNumberWork' => $this->getRandomPhoneNumber(),
@@ -214,11 +214,18 @@ class GeneratorData {
             'JobPosition' => $this->getRandomJobPosition(),
             'Company' => $this->getRandomCompany(),
             'LastModified' => $this->getDateBetween(date_sub($now, date_interval_create_from_date_string('10 days')), $now),
-            'belongsToAccount' => $this->util->GetArrayValue($account1params, "InternalId", null),
+            'belongsToAccount' => $accountInternalId,
             'isOriginal' => "true",
             'isDeleted' => "false",
-            'relationId' => "");
+            'relationId' => $relationId);
         return $params;
+    }
+
+    function CreateRandomContacts($count) {
+        $contacts = array();
+        for ($i = 1; $i <= $count; $i++) {
+            array_push($contacts, $this->GetRandomContactParams("", ""));
+        }
     }
 
     /**

@@ -7,40 +7,57 @@
  */
 include 'MyCommunicator.php';
 include 'Client\Client.php';
-include 'Util\GeneratorData.php';
+include_once  'Util\GeneratorData.php';
+include_once  'Util\Util.php';
 
-class TestRuner {
+class TestRunner {
 
     private $client;
     private $generatorData;
+    private $util;
 
     function __construct() {
+        $this->util = new Util();
         $this->generatorData = new GeneratorData();
 
-        $server = new SoapServer('http://wsdl.sync.today/DataModelCallback.asmx?WSDL', array('exceptions' => true));
-        $server->setClass('MyCommunicator');
-        $server->handle();
+        try {
+            echo "Creating SoapServer <br />";
+            $server = new SoapServer('http://wsdl.sync.today/DataModelCallback.asmx?WSDL', array('exceptions' => true));
+            $server->setClass('MyCommunicator');
+            $server->handle();
 
-        $this->client = new Client('http://wsdl.sync.today/DataModel.asmx?WSDL');
+            echo "Creating SoapClient <br />";
+            $this->client = new Client('http://wsdl.sync.today/DataModel.asmx?WSDL');
 
-
-        $this->accs = $this->client->getCreatedAccounts();
+        } catch (SoapFault $e) {
+            echo var_dump(libxml_get_last_error());
+            echo var_dump($e);
+        }
     }
 
     function Run() {
-        // 1st step: create user
-        $this->client->CreateUser($this->generatorData->GetUserParams());
-        // 2nd step: create accounts
-        $this->client->CreateAccount($this->generatorData->GetAccount1Params());
-        $this->client->CreateAccount($this->generatorData->GetAccount2Params());
-        // 3rd step: create contact
-        CreateContact();       
+        try {
+            // 1st step: create user
+            $user = $this->client->CreateUser($this->generatorData->GetUserParams());
+            // 2nd step: create accounts
+            $this->client->CreateAccount($this->generatorData->GetAccount1Params());
+            $this->client->CreateAccount($this->generatorData->GetAccount2Params());
+
+            $this->accs = $this->client->getCreatedAccounts();
+            // 3rd step: create contact
+            $createdContact = CreateRandomContact("");
+
+            //4th step: Synchronize
+            $this->client->SynchronizeUser($this->util->GetArrayValue($user, 'InternalId', null));
+        } catch (SoapFault $e) {
+            echo var_dump(libxml_get_last_error());
+            echo var_dump($e);
+        }
     }
-    
-    function CreateContact()
-    {
-        $params = array();
-        $this->client->CreateAccount($params);
+
+    function CreateRandomContact($relationId) {
+        $params = $this->generatorData->GetRandomContactParams($this->client->getCreatedAccounts()[0], $relationId);
+        $this->client->CreateContact($params);
     }
 
 }
