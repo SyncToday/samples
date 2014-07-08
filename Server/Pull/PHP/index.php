@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <meta charset="UTF-8">
+        <meta http-equiv="content-type" content="text/xml;charset=utf-8">
         <title></title>
     </head>
     <body>

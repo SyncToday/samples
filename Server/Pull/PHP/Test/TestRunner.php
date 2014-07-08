@@ -23,11 +23,11 @@ class TestRunner {
 
         try {
             echo "Creating SoapServer <br />";
-            
-            $server = new Server('http://localhost:22649/DataModelCallBack.asmx?WSDL');  
-            $server->SetClass("MyCommunicator");
+
+            $server = new Server('http://localhost:22649/DataModelCallBack.asmx?WSDL');
+            $server->SetClass("MyCommunicator", new MyCommunicator());
             $server->handle();
-            
+
             echo "Creating SoapClient <br />";
             $this->client = new Client('http://localhost:22649/DataModel.asmx?WSDL');
         } catch (SoapFault $e) {

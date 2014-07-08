@@ -11,13 +11,13 @@ class MyCommunicator {
     // this variable simulate all contacts in your system
     private $allContacts;
     private $createdContacts;
-    
     private $util;
 
     public function __construct() {
-        $util = new Util();
-        $generatorData = new GeneratorData();
-        $this->allContacts = $generatorData->CreateRandomContacts(100);
+
+        $this->util = new Util();
+        $this->generatorData = new GeneratorData();
+        $this->allContacts = $this->generatorData->CreateRandomContacts(100);
     }
 
     public function AreEntityMethodsSupported() {
@@ -32,7 +32,7 @@ class MyCommunicator {
      * @param type $param is Contact entity.
      */
     public function CreateContact($param) {
-        echo "my communicator - create contact"; 
+        echo "my communicator - create contact";
         array_push($this->createdContacts, $param);
     }
 
@@ -41,7 +41,7 @@ class MyCommunicator {
      * @param type $param is general entity
      */
     public function CreateEntity($param) {
-        echo "my communicator - create entity"; 
+        echo "my communicator - create entity";
         array_push($this->createdContacts, $param);
     }
 
@@ -51,13 +51,13 @@ class MyCommunicator {
      * @param type $expectedLastDate
      */
     public function DeleteEntity($externalId, $expectedLastDate) {
-       echo "my communicator - delete entity";     
+        echo "my communicator - delete entity";
 //find and pull contact from array
         /*
-        foreach (createdContacts as $val) {
-            if($this->util->)
-            array_pull($this->createdContacts);
-        }
+          foreach (createdContacts as $val) {
+          if($this->util->)
+          array_pull($this->createdContacts);
+          }
          * */
     }
 
@@ -66,7 +66,7 @@ class MyCommunicator {
      * @param type $externalId
      */
     public function GetEntityById($externalId) {
-        echo "my communicator - get entity by id"; 
+        echo "my communicator - get entity by id";
     }
 
     /**
@@ -75,7 +75,7 @@ class MyCommunicator {
      * @param type $isMaintenance
      */
     public function GetEntityLastUpdateTime($externalId, $isMaintenance) {
-        echo "my communicator - get entity last modified"; 
+        echo "my communicator - get entity last modified";
     }
 
     /**
@@ -83,7 +83,7 @@ class MyCommunicator {
      * @param type $datetime
      */
     public function GetEntitysUpdatedSince($datetime) {
-        echo "my communicator - updated since"; 
+        echo "my communicator - updated since";
     }
 
     /**
@@ -97,8 +97,11 @@ class MyCommunicator {
      * Returns boolean whether support this entity type.
      * @param type $typeDescriptor is type of integer
      */
-    public function IsEntitySupported($typeDescriptor) {
-        return array('typeDescriptor' => 'true');
+    function IsEntitySupported($typeDescriptor) {
+        echo "jsem ve funkci ";
+        $isEntitySupportedResponse = new IsEntitySupportedResponse();
+        $isEntitySupportedResponse->setIsEntitySupportedResult(true);
+        return $isEntitySupportedResponse;
     }
 
     /**
@@ -106,11 +109,11 @@ class MyCommunicator {
      * @param type $param is type of contact
      */
     public function UpdateContact($param, $expectedLastDate) {
-        echo "my communicator - update contact"; 
+        echo "my communicator - update contact";
     }
 
     public function UpdateEntity() {
-        echo "my communicator - update entity"; 
+        echo "my communicator - update entity";
     }
 
 }
