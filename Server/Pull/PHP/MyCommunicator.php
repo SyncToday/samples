@@ -1,7 +1,7 @@
 <?php
 
-include_once  'Util\GeneratorData.php';
-include_once  'Util\Util.php';
+include_once 'Util\GeneratorData.php';
+include_once 'Util\Util.php';
 
 /**
  * This class simulate your communicator.
@@ -98,7 +98,7 @@ class MyCommunicator {
      * @param type $typeDescriptor is type of integer
      */
     public function IsEntitySupported($typeDescriptor) {
-        return true;
+        return array('typeDescriptor' => 'true');
     }
 
     /**

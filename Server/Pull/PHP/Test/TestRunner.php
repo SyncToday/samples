@@ -5,10 +5,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-include 'MyCommunicator.php';
-include 'Client\Client.php';
-include_once  'Util\GeneratorData.php';
-include_once  'Util\Util.php';
+include_once 'MyCommunicator.php';
+include_once 'Client\Client.php';
+include_once 'Util\GeneratorData.php';
+include_once 'Util\Util.php';
+include_once 'Server\Server.php';
 
 class TestRunner {
 
@@ -22,13 +23,13 @@ class TestRunner {
 
         try {
             echo "Creating SoapServer <br />";
-            $server = new SoapServer('http://localhost:22649/DataModelCallBack.asmx?WSDL', array('exceptions' => true));
-            $server->setClass('MyCommunicator');
+            
+            $server = new Server('http://localhost:22649/DataModelCallBack.asmx?WSDL');  
+            $server->SetClass("MyCommunicator");
             $server->handle();
-
+            
             echo "Creating SoapClient <br />";
             $this->client = new Client('http://localhost:22649/DataModel.asmx?WSDL');
-
         } catch (SoapFault $e) {
             echo var_dump(libxml_get_last_error());
             echo var_dump($e);
@@ -46,7 +47,6 @@ class TestRunner {
             $this->accs = $this->client->getCreatedAccounts();
             // 3rd step: create contact
             //$createdContact = $this->CreateRandomContact("");
-
             //4th step: Synchronize
             $this->client->SynchronizeUser($this->client->getCreatedUser()->CreateUser2Result->InternalId);
         } catch (SoapFault $e) {

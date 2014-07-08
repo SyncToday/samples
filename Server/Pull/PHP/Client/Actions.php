@@ -57,6 +57,16 @@ class Actions {
         $params = array('userId' => $userid);
         return $client->SynchronizeUser2($params);
     }
+    
+    function SetAccountLastSync($client, $params)
+    {
+        return $client->SetAccountLastSync($params);
+    }
+    
+    function SetAccountUpdatesPolicy($client, $params)
+    {
+        
+    }
 
 }
 ?>

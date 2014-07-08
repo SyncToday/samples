@@ -240,6 +240,14 @@ class GeneratorData {
             array_push($contacts, $this->GetRandomContactParams("", ""));
         }
     }
+    
+    function getLastSyncDateTime()
+    {
+        $date = new DateTime();
+        //month earlier
+        $date->sub(new DateInterval('P30D'));
+        return $date;
+    }
 
     /**
      * Your communicator.
