@@ -1,5 +1,4 @@
 <?php
-
 include 'Actions.php';
 include_once 'Util\GeneratorData.php';
 /**

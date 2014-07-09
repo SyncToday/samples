@@ -1,8 +1,7 @@
 <?php
-
 include_once 'Util\GeneratorData.php';
 include_once 'Util\Util.php';
-
+include_once 'Communicator\Responses\IsEntitySupportedResponse.php';
 /**
  * This class simulate your communicator.
  */
@@ -32,7 +31,6 @@ class MyCommunicator {
      * @param type $param is Contact entity.
      */
     public function CreateContact($param) {
-        echo "my communicator - create contact";
         array_push($this->createdContacts, $param);
     }
 
@@ -41,7 +39,6 @@ class MyCommunicator {
      * @param type $param is general entity
      */
     public function CreateEntity($param) {
-        echo "my communicator - create entity";
         array_push($this->createdContacts, $param);
     }
 
@@ -51,7 +48,6 @@ class MyCommunicator {
      * @param type $expectedLastDate
      */
     public function DeleteEntity($externalId, $expectedLastDate) {
-        echo "my communicator - delete entity";
 //find and pull contact from array
         /*
           foreach (createdContacts as $val) {
@@ -66,7 +62,7 @@ class MyCommunicator {
      * @param type $externalId
      */
     public function GetEntityById($externalId) {
-        echo "my communicator - get entity by id";
+        
     }
 
     /**
@@ -75,7 +71,7 @@ class MyCommunicator {
      * @param type $isMaintenance
      */
     public function GetEntityLastUpdateTime($externalId, $isMaintenance) {
-        echo "my communicator - get entity last modified";
+        
     }
 
     /**
@@ -83,14 +79,14 @@ class MyCommunicator {
      * @param type $datetime
      */
     public function GetEntitysUpdatedSince($datetime) {
-        echo "my communicator - updated since";
+        
     }
 
     /**
      * Returns friendly name of communicator.
      */
     public function GetFriendlyName() {
-        return "My communicator";
+        
     }
 
     /**
@@ -98,9 +94,13 @@ class MyCommunicator {
      * @param type $typeDescriptor is type of integer
      */
     function IsEntitySupported($typeDescriptor) {
-        echo "jsem ve funkci ";
+
+        $formdata = get_object_vars($typeDescriptor); // Pull parameters from SOAP connection
+        $descriptor = $formdata['typeDescriptor'];
+        
         $isEntitySupportedResponse = new IsEntitySupportedResponse();
-        $isEntitySupportedResponse->setIsEntitySupportedResult(true);
+        $isEntitySupportedResponse->setIsEntitySupportedResult(false);
+                   
         return $isEntitySupportedResponse;
     }
 
@@ -109,13 +109,11 @@ class MyCommunicator {
      * @param type $param is type of contact
      */
     public function UpdateContact($param, $expectedLastDate) {
-        echo "my communicator - update contact";
+        
     }
 
     public function UpdateEntity() {
-        echo "my communicator - update entity";
+        
     }
 
 }
-?>
-

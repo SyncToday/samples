@@ -1,5 +1,4 @@
 <?php
-
 class IsEntitySupportedResponse {
 
     private $IsEntitySupportedResult;
@@ -9,5 +8,3 @@ class IsEntitySupportedResponse {
         $this->IsEntitySupportedResult = $param;
     }
 }
-?>
-

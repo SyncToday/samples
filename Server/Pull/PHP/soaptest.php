@@ -1,24 +1,11 @@
 <?php
-
-require_once 'MyCommunicator.php';
-
-class soaptest {
-
-    public function IsEntitySupported($typeDescriptor) {
-        echo "jsem ve funkci ";
-        return true;
-    }
-    
-    public function GetEntityById() {
-        return "My communicator";
-    }
-
-}
-
+include_once 'Server\Server.php';
+ob_start();
 $server = new SoapServer("http://localhost:22649/DataModelCallBack.asmx?WSDL", array('soap_version' => SOAP_1_2));
 $server->setClass("MyCommunicator");
-//$server->setObject(new MyCommunicator());
-$server->setPersistence(SOAP_PERSISTENCE_SESSION);
 $server->handle();
-?>
+echo "before get contents";
+$soapXml = ob_get_contents();
+ob_end_clean();
+$soapXml = preg_replace('/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u', ' ', $soapXml);
 

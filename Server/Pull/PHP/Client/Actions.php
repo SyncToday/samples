@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This class for do actions.
  */
@@ -69,5 +68,3 @@ class Actions {
     }
 
 }
-?>
-

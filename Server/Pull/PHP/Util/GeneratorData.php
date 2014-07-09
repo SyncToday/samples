@@ -1,7 +1,5 @@
 <?php
-
 include ('Util.php');
-
 /**
  * This class is only for generate random data for simulate synchronization.
  */
@@ -276,5 +274,3 @@ class GeneratorData {
     }
 
 }
-?>
-

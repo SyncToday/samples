@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This class representation contact entity.
  */
@@ -25,5 +24,3 @@ class ContactEntity
     public $JobPosition;
     public $Company;
 }
-?>
-

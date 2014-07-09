@@ -1,5 +1,4 @@
 <?php
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -13,22 +12,20 @@ include_once 'Server\Server.php';
 
 class TestRunner {
 
-    private $client;
+    public $client;
     private $generatorData;
     private $util;
+    private $server;
 
     function __construct() {
         $this->util = new Util();
         $this->generatorData = new GeneratorData();
 
         try {
-            echo "Creating SoapServer <br />";
-
-            $server = new Server('http://localhost:22649/DataModelCallBack.asmx?WSDL');
-            $server->SetClass("MyCommunicator", new MyCommunicator());
-            $server->handle();
-
-            echo "Creating SoapClient <br />";
+            $this->server = new Server('http://localhost:22649/DataModelCallBack.asmx?WSDL');
+            $this->server->SetClass("MyCommunicator");
+            $this->server->handle();
+            
             $this->client = new Client('http://localhost:22649/DataModel.asmx?WSDL');
         } catch (SoapFault $e) {
             echo var_dump(libxml_get_last_error());

@@ -1,5 +1,4 @@
 <?php
-
 class AreEntityMethodsSupportedResponse {
 
     private $AreEntityMethodsSupportedResult;
@@ -9,4 +8,3 @@ class AreEntityMethodsSupportedResponse {
     }
 
 }
-?>
