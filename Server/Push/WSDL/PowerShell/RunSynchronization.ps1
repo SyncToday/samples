@@ -11,5 +11,5 @@ $users = $synctoday.GetUsers2()
 foreach ( $user in $users ) 
 {
     # spawn a new server thread for each user; use SynchronizeUser2 for the synchronous synchronization if needed (can timeout!)
-    $synctoday.SynchronizeUser2A($user)
+    $synctoday.SynchronizeUser2A($user.InternalId)
 }
