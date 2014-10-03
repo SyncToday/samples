@@ -4,7 +4,7 @@
 # change the server on the next line!
 $server = "http://naseukolycz.sync.today"
 
-# get the 
+# get the user list
 $synctoday = New-WebServiceProxy -Uri ( $server + "/DataModel.asmx?WSDL" )
 $users = $synctoday.GetUsers2()
 # iterate through users
