@@ -38,6 +38,9 @@
       <Private>True</Private>
       <HintPath>..\packages\FSharp.Core.3.1.2.1\lib\net40\FSharp.Core.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>..\packages\RestSharp.105.0.1\lib\net4\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="sync.today.cipher">
       <HintPath>..\packages\sync.today.cipher.4.0.5554.38018\lib\net45\sync.today.cipher.dll</HintPath>
     </Reference>
