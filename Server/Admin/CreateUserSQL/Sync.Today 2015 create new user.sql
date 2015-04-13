@@ -27,7 +27,7 @@ select @accountId = @@IDENTITY
 INSERT INTO [ServiceAccounts] 
 		([LoginJSON],[ServiceId],[AccountId],[LastSuccessfulDownload],[LastDownloadAttempt],[LastSuccessfulUpload],[LastUploadAttempt])
      VALUES
-           ('{"loginName" : "__exchangeloginname__", "password" : "__exchangeencryptedpassword__", "server" : "__exchangeserver__"}'
+           ('{"loginName" : "__exchangeloginname__", "password" : "__exchangeencryptedpassword__", "server" : "__exchangeserver__", "impersonate" : "false"}'
            ,(SELECT Id FROM Services where [Key] = 'EXCHANGE')
            ,@accountId
            ,'__synchronizefrom__'
